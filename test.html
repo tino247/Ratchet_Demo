@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Examples</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link href="" rel="stylesheet">
+</head>
+<body>
+    <form action="http://localhost/RatchetDemo/getSub.php" method="post">
+        <div>category:<input type='text' name='category' id='categpry'></div>
+        <div>title:<input type='text' name='title' id='title'></div>
+        <div>article:<input type='text' name='article' id='article'></div>
+        <div><input type='submit' name='submit' id='submit'></div>
+
+    </form>
+</body>
+<script src="http://localhost/RatchetDemo/autobahn.min.jgz"></script>
+<script src="http://autobahn.s3.amazonaws.com/js/autobahn.min.js"></script>
+<script>
+    var conn = new ab.Session('ws://localhost:8080',
+        function() {
+             //注意这里的kittensCategory要与服务器端的一致
+            conn.subscribe('kittensCategory', function(topic, data) {
+                // This is where you would add the new article to the DOM (beyond the scope of this tutorial)
+                console.log('New article published to category "' + topic + '" : ' + data.title);
+            });
+            conn.subscribe('hello', function(topic, data) {
+                // This is where you would add the new article to the DOM (beyond the scope of this tutorial)
+                console.log('New article published to category "' + topic + '" : ' + data.title);
+            });
+        },
+        function() {
+            console.warn('WebSocket connection closed');
+        },
+        {'skipSubprotocolCheck': true}
+    );
+</script>
+</html>
